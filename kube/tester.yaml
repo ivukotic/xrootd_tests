@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xrootd-tester
+  namespace: aaas
+  labels:
+    app: xrootd-tester
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xrootd-tester
+  template:
+    metadata:
+      labels:
+        app: xrootd-tester
+    spec:
+      volumes:
+      - name: es-secret-volume
+        secret:
+          secretName: elasticsearch
+          items:
+          - key: es_conf
+            path: elasticsearch.json
+      - name: x509-data
+        emptyDir: {}
+      - name: x509-certs-volume
+        secret:
+          secretName: x509-secret
+          items:
+          - key: userkey
+            path: userkey.pem
+            mode: 256 
+          - key: usercert
+            path: usercert.pem
+
+      containers:
+      - name: xrootd-tester
+        image: ivukotic/xrootd-tester:latest
+        imagePullPolicy: "Always"
+        command: ["python"]
+        args: ["request_lookup.py"]
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "0"
+        volumeMounts:
+        - name: es-secret-volume
+          mountPath: "/etc/elasticsearch/"
+          readOnly: true
+        - name: x509-data
+          mountPath: "/etc/grid-security/"
+          readOnly: false
+        - name: x509-certs-volume
+          mountPath: "/etc/grid-certs/"
+          readOnly: true
+
+      - name: x509
+        image: ivukotic/xrootd-tester:latest
+        imagePullPolicy: "Always"
+        command: ["./run_x509_updater.sh"]
+        volumeMounts:
+        - name: x509-data
+          mountPath: "/etc/grid-security/"
+          readOnly: false
+        - name: x509-certs-volume
+          mountPath: "/etc/grid-certs/"
+          readOnly: true
+          
