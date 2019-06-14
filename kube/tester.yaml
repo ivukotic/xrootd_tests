@@ -37,6 +37,8 @@ spec:
         env:
         - name: PYTHONUNBUFFERED
           value: "0"
+        - name: RUCIO_ACCOUNT
+          value: "ivukotic"
         - name: ES_USER
           valueFrom:
             secretKeyRef:
@@ -48,6 +50,10 @@ spec:
               name: es-auth
               key: es_pass
         - name: ES_HOST
+          valueFrom:
+            secretKeyRef:
+              name: es-auth
+              key: es_host
         volumeMounts:
         - name: x509-data
           mountPath: "/etc/grid-security/"
