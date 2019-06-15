@@ -49,7 +49,6 @@ spec:
          
           - name: x509
             image: atlasanalyticsservice/origin-tester:latest
-            imagePullPolicy: "Always"
             command: ["./run_x509_updater.sh"]
             volumeMounts:
             - name: x509-data
