@@ -1,5 +1,6 @@
+
+POST _template/testing_xrootd
 {
-  "testing_xrootd" : {
     "order" : 0,
     "index_patterns" : [
       "testing_xrootd"
@@ -11,7 +12,7 @@
       }
     },
     "mappings" : {
-      "data" : {
+      "docs" : {
         "properties" : {
           "endpoint" : {
             "type" : "keyword"
@@ -37,4 +38,3 @@
     },
     "aliases" : { }
   }
-}
