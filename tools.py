@@ -18,8 +18,6 @@ import rucio
 import rucio.client
 import rucio.common.config as conf
 
-rrc = rucio.client.replicaclient.ReplicaClient()
-
 
 def get_es_connection():
     """
@@ -108,6 +106,8 @@ def storeInES(data):
 
 
 def find_replicas(scope, name):
+
+    rrc = rucio.client.replicaclient.ReplicaClient()
     try:
         reps = rrc.list_replicas([{'scope': scope, 'name': name}], schemes=['root'])
     except:
