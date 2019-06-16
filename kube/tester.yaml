@@ -31,7 +31,7 @@ spec:
       containers:
       - name: xrootd-tester
         image: atlasanalyticsservice/origin-tester:latest
-        imagePullPolicy: "Always"
+        imagePullPolicy: Always
         command: ["python"]
         args: ["xroot_test.py"]
         env:

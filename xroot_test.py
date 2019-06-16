@@ -5,8 +5,8 @@ import time
 from datetime import datetime
 import tools
 
-print('sleeping for 20s.')
-time.sleep(20)  # for the x509 to finish.
+print('sleeping for 100s.')
+time.sleep(100)  # for the x509 to finish.
 
 if os.environ.get("RUCIO_ACCOUNT") != None:
     rucio_account = os.environ.get("RUCIO_ACCOUNT")
