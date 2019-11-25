@@ -17,7 +17,7 @@ spec:
           - name: xcache-tester
             image: atlasanalyticsservice/origin-tester:latest
             imagePullPolicy: Always
-            command: ["run_xcache_test.sh"]
+            command: ["./run_xcache_test.sh"]
             env:
             - name: PYTHONUNBUFFERED
               value: "0"
