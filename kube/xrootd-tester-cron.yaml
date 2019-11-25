@@ -1,0 +1,74 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: xrootd-tester
+  namespace: aaas
+  labels:
+    app: xrootd-tester
+spec:
+  schedule: "0 */1 * * *"
+  suspend: false
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: xrootd-tester
+            image: atlasanalyticsservice/origin-tester:latest
+            imagePullPolicy: Always
+            command: ["run_xroot_test.sh"]
+            env:
+            - name: PYTHONUNBUFFERED
+              value: "0"
+            - name: RUCIO_ACCOUNT
+              value: "ivukotic"
+            - name: ES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: es-auth
+                  key: es_user
+            - name: ES_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: es-auth
+                  key: es_pass
+            - name: ES_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: es-auth
+                  key: es_host
+            volumeMounts:
+            - name: x509-data
+              mountPath: "/etc/grid-security/"
+              readOnly: false
+            - name: x509-certs-volume
+              mountPath: "/etc/grid-certs/"
+              readOnly: true
+         
+          - name: x509
+            image: atlasanalyticsservice/origin-tester:latest
+            command: ["./run_x509_updater.sh"]
+            volumeMounts:
+            - name: x509-data
+              mountPath: "/etc/grid-security/"
+              readOnly: false
+            - name: x509-certs-volume
+              mountPath: "/etc/grid-certs/"
+              readOnly: true
+          
+          volumes:
+          - name: x509-data
+            emptyDir: {}
+          - name: x509-certs-volume
+            secret:
+              secretName: x509-secret
+              items:
+              - key: userkey
+                path: userkey.pem
+                mode: 256 
+              - key: usercert
+                path: usercert.pem
+          
+          restartPolicy: Never
+          

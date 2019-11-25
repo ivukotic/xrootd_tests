@@ -1,10 +1,10 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: xrootd-tester
+  name: xcache-tester
   namespace: aaas
   labels:
-    app: xrootd-tester
+    app: xcache-tester
 spec:
   schedule: "0 */1 * * *"
   suspend: false
@@ -14,11 +14,10 @@ spec:
       template:
         spec:
           containers:
-          - name: xrootd-tester
+          - name: xcache-tester
             image: atlasanalyticsservice/origin-tester:latest
             imagePullPolicy: Always
-            command: ["python"]
-            args: ["xroot_test.py"]
+            command: ["run_xcache_test.sh"]
             env:
             - name: PYTHONUNBUFFERED
               value: "0"
