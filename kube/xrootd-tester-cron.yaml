@@ -17,7 +17,7 @@ spec:
           - name: xrootd-tester
             image: atlasanalyticsservice/origin-tester:latest
             imagePullPolicy: Always
-            command: ["run_xroot_test.sh"]
+            command: ["run_xrootd_test.sh"]
             env:
             - name: PYTHONUNBUFFERED
               value: "0"

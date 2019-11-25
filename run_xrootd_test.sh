@@ -10,5 +10,5 @@ done
 ls $X509_USER_PROXY
 
 
-python xroot_test.py
+python xrootd_test.py
 
