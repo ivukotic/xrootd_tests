@@ -64,6 +64,15 @@ def getXROOTendpoints():
     return endpoints
 
 
+def getXCACHEendpoints():
+    xc = {
+        "MWT2": "root://xcache.mwt2.org:1094",
+        "AGLT2": "root://xcache.aglt2.org:1094",
+        "PragueLCG2": "root://xcache1.farm.particle.cz:1094"
+    }
+    return xc
+
+
 def getDDMendpoints():
     print('---------------getting ddm endpoints from AGIS. ---------------')
     ddms = {}
@@ -134,7 +143,7 @@ class Command(object):
 
     def run(self, timeout):
         def target():
-            print 'command started: ', self.cmd
+            print ('command started: ', self.cmd)
             self.process = subprocess.Popen(self.cmd, shell=True)
             self.process.communicate()
 
@@ -143,7 +152,7 @@ class Command(object):
 
         thread.join(timeout)
         if thread.is_alive():
-            print 'Terminating process'
+            print ('Terminating process')
             self.process.terminate()
             thread.join()
         return self.process.returncode
