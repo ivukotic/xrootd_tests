@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: xrootd-tester
+  name: manual-tester
   namespace: aaas
   labels:
-    app: xrootd-tester
+    app: manual-tester
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: xrootd-tester
+      app: manual-tester
   template:
     metadata:
       labels:
-        app: xrootd-tester
+        app: manual-tester
     spec:
       volumes:
       - name: x509-data
@@ -29,7 +29,7 @@ spec:
             path: usercert.pem
 
       containers:
-      - name: xrootd-tester
+      - name: manual-tester
         image: atlasanalyticsservice/origin-tester:latest
         imagePullPolicy: Always
         # command: ["./run_xrootd_test.sh"]
