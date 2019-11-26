@@ -73,7 +73,7 @@ try:
             if 'path' not in d:
                 continue
             logfile = d['endpoint'] + logpostfix
-            cpcomm = 'timeout 270 xrdcp -d 2 -f -np '
+            cpcomm = 'timeout 600 xrdcp -d 2 -f -np '
             comm = cpcomm + d['path'] + redstring + logfile + ' & \n'
             f.write('echo "command executed:\n ' + comm + '" >> ' + logfile + '\n')
             f.write('echo "========================================================================" >> ' + logfile + '\n')
